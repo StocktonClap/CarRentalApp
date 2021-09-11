@@ -1,7 +1,9 @@
 package com.ms;
 
+import com.ms.entities.Address;
 import com.ms.entities.Role;
 import com.ms.entities.User;
+import com.ms.repository.AddressRepository;
 import com.ms.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,9 @@ public class UserRepositoryTests {
     private UserRepository userRepository;
 
     @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
     private TestEntityManager entityManager;
 
     @Test
@@ -40,11 +45,13 @@ public class UserRepositoryTests {
     @Test
     public void testCreateNewUserWithOneRole() {
         Role roleAdmin = entityManager.find(Role.class, 1L);
+        Address address = entityManager.find(Address.class, 1L);
         User user = new User();
         user.setEmail("niewiadomo00001@gmail.com");
         user.setPassword("nwm1");
         user.setFirstName("Maciej");
         user.setLastName("Stępień");
+        user.setAddress(address);
         user.addRole(roleAdmin);
 
         userRepository.save(user);
